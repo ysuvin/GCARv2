@@ -13,7 +13,7 @@ create table usuarios(
 insert into usuarios values 
 ('11111111','pass','Nombre1','Nombre2','Paterno','Materno','profesor@mail.com',1),
 ('22222222','pass','Nombre1','Nombre2','Paterno','Materno','alumno@mail.com',2),
-('17134298','85638020','Sebastián','Andrés','Segovia','Cordero','s.segovia.c@gmail.com',1);
+('17134298','85638020','Sebastian','Andres','Segovia','Cordero','s.segovia.c@gmail.com',1);
 
 create table alumnos(
 	rut varchar(45),

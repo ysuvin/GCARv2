@@ -22,11 +22,11 @@ import weka.core.converters.ConverterUtils.DataSource;
 public class AnalisisBean implements Serializable{
 
 	/**
-	   * Espera un conjunto de datos como primer parámetro. Se utiliza el último atributo
+	   * Espera un conjunto de datos como primer parÃ¡metro. Se utiliza el Ã¡ltimo atributo
 	   * como atributo de clase.
 	   *
-	   * @param argumenta los parámetros de la línea de comandos
-	   * @throws Excepción si algo sale mal
+	   * @param argumenta los parÃ¡metros de la lÃ¡nea de comandos
+	   * @throws ExcepciÃ¡n si algo sale mal
 	   */
 
 	  public void apriori(String[] args) throws Exception {

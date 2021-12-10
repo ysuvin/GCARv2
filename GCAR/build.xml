@@ -5,6 +5,9 @@
         <fileset dir="WebContent/WEB-INF/lib">
             <include name="*.jar"/>
         </fileset>
+        <fileset dir="lib">
+            <include name="*.jar"/>
+        </fileset>
     </path>
      
     <target name="init">
@@ -13,7 +16,7 @@
     </target>
      
     <target name="compile" depends="init" >
-        <javac target="1.8" destdir="build/classes" debug="true" srcdir="src" includeantruntime="false">
+        <javac target="1.8" source="1.8" destdir="build/classes" debug="true" srcdir="src" includeantruntime="false">
             <classpath refid="compile.classpath"/>
         </javac>
     </target>

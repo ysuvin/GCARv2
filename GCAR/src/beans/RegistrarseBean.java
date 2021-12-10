@@ -60,7 +60,7 @@ public class RegistrarseBean {
 				session.setAttribute("tipo", userBean.getTipo());
 				session.setAttribute("usuario", userBean);
 
-				System.out.println("Sesión iniciada con: "+session.getAttribute("nombre"));
+				System.out.println("SesiÃ³n iniciada con: "+session.getAttribute("nombre"));
 				System.out.println("Tipo: " + session.getAttribute("tipo"));
 
 				FacesContext  context = FacesContext.getCurrentInstance();

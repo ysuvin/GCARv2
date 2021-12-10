@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+
+<h:body>
+
+	<f:metadata>
+		<f:event listener="#{newLoginBean.loadBD}" type="preRenderView" />
+	</f:metadata>
+	
+	<ui:composition template="/templates/consultaTemplate.xhtml">
+		<ui:define name="title">Algebra Relacional - UV</ui:define>
+		<ui:define name="content">
+		
+			<h:form>			
+				<p:panel styleClass="divs">
+					<h:panelGrid columns="3" cellpadding="5">
+						<h:commandLink value="Inicio" styleClass="linkTitulo" action="home"/>
+						>
+						<h:outputText value="Responder Ejercicios" styleClass="tituloPagina"/>
+					</h:panelGrid>
+				</p:panel>
+			</h:form>
+		
+			<p:spacer/>
+				
+			<h:form id="form" onkeypress="if (event.keyCode == 13) {return false; }">
+				<p:growl id="growl" showDetail="false"/>
+				
+				<p:dialog id="help" widgetVar="dlg" header="Ayuda" resizable="false" showEffect="fade" hideEffect="fade">
+					<p:fieldset legend="Responder Ejercicios" style="font-weight: bold;" >
+						<h2/>
+						1. Elija un ejercicio en las pestañas de la sección <h:outputText value="Ejercicios" style="color:#e69700"/> <p/>
+						2. Seleccione el botón <p:commandButton value="Responder" icon="ui-icon-pencil" readonly="true" /> para responder el Ejercicio seleccionado <p/>
+						3. Utilize la herramienta de la sección <h:outputText value="Consultas" style="color:#e69700"/> para generar la Relación Resultantes del Ejercicio a responder <p/>
+						4. Seleccione el botón <p:commandButton value="Aceptar" icon="ui-icon-check" readonly="true" />	para terminar de responder el Ejercicio seleccionado <p/>
+						5. Seleccione el botón <p:commandButton value="Enviar Respuestas" icon="ui-icon-check" readonly="true" /> para terminar de responder los Ejercicios y obtener una calificación <p/>					
+						<h2/>
+					</p:fieldset>
+			    </p:dialog>  
+			    
+				<p:fieldset styleClass="divs">
+				<f:facet name="legend">
+					<h:panelGrid columns="2" cellpadding="5">
+						<h:outputText value="Responder Ejercicios" />
+						<h:outputLink value="javascript:void(0)" onclick="PF('dlg').show();" >
+							<span class="ui-icon ui-icon-help" />
+						</h:outputLink>
+					</h:panelGrid>
+				</f:facet>
+				
+				<p:panel styleClass="divs">
+		    		<h:panelGrid columns="2" cellpadding="5">
+			        
+				        <h:outputText value="Ver Resultados"/>
+				        <p:commandButton value="Enviar Respuestas" icon="ui-icon-check" action="#{dtResponderEjerciciosBean.obtenerCalificacion}" update="form"
+				            disabled="#{dtResponderEjerciciosBean.selectedEjercicio == null ? 'false' : 'true'}"
+				           	rendered="#{dtResponderEjerciciosBean.cantEjercicios == 0 ? 'false' : 'true'}">
+				           	<p:confirm header="Confirmacion" message="¿Desea enviar el formulario para obtener una calificación?" icon="ui-icon-alert" />
+				        </p:commandButton>
+				        
+				        <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+							<p:commandButton value="Sí" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+							<p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+						</p:confirmDialog>
+			           	
+			        </h:panelGrid>
+		    	</p:panel>
+		    	
+		    	<p:spacer/>
+				
+				<p:panel id="consultas" mode="native" header="Ejercicios">
+		        
+				    <p:tabView id="radioDT" rendered="#{dtResponderEjerciciosBean.cantEjercicios == 0 ? 'false' : 'true'}" 
+				    value="#{dtResponderEjerciciosBean.ejercicios}" var="ejercicio" styleClass="divs">
+				        <p:tab title="Ejercicio #{ejercicio.id + 1}" disabled="#{dtResponderEjerciciosBean.selectedEjercicio == null ? 'false' : 'true'}">
+				            <h:panelGrid columns="2" cellpadding="5" style="width:100%!important">
+				                               
+				                <h:outputText value="Pregunta: "  style="font-weight: bold;"/>
+          						<h:outputText value="#{ejercicio.pregunta}" required="true" label="text" />
+				                	
+				                <h:panelGrid>
+				                	<h:outputText value="Relación : " style="font-weight: bold;"/>
+				                	<h:outputText value="Resultante " style="font-weight: bold;"/>
+				                </h:panelGrid>				        
+				                <h:outputText value="#{ejercicio.respuestaAlumno}" required="true" label="text"
+          							rendered="#{dtResponderEjerciciosBean.selectedEjercicio == null ? 'true' : 'false'}" />
+          						<p:inputText value="#{ejercicio.respuestaAlumno}" required="false" label="text" style="width:100%!important"
+          							rendered="#{dtResponderEjerciciosBean.selectedEjercicio == null ? 'false' : 'true'}" />
+				                
+				                <p:spacer/>
+				                <p:commandButton value="Responder" process="radioDT" action="#{dtResponderEjerciciosBean.responder()}" icon="ui-icon-pencil" title="Modificar" update="@form"
+				                	rendered="#{dtResponderEjerciciosBean.selectedEjercicio == null ? 'true' : 'false'}" ajax="true" >           					
+                					<f:setPropertyActionListener value="#{ejercicio}" target="#{dtResponderEjerciciosBean.selectedEjercicio}" />
+            					</p:commandButton>
+            					   					
+	            				<p:commandButton value="Aceptar"  icon="ui-icon-check" title="Aceptar" update="@form" ajax="true"
+	            					rendered="#{dtResponderEjerciciosBean.selectedEjercicio == null ? 'false' : 'true'}" action="#{dtResponderEjerciciosBean.aceptar}">
+	            				</p:commandButton>
+            					
+				            </h:panelGrid>
+				        </p:tab>
+				            
+				    </p:tabView>
+			    
+				</p:panel>
+				
+				<p:spacer/>
+					
+				<p:panel id="consultaPanel" mode="native" header="Consultas">	
+				<p:toolbar>
+					<f:facet name="left" >
+						<p:commandButton type="push" title="Seleccionar" value="&#963;" 
+							action="#{dtResponderEjerciciosBean.ayudaSeleccionar}" update="form" ajax="true"
+							disabled="#{dtResponderEjerciciosBean.selectedEjercicio == null ? 'true' : 'false'}"/>
+						<p:commandButton type="push" title="Proyectar" value="&#960;"
+							action="#{dtResponderEjerciciosBean.ayudaProyectar}" update="form" ajax="true"
+							disabled="#{dtResponderEjerciciosBean.selectedEjercicio == null ? 'true' : 'false'}"/>
+						<p:commandButton type="push" title="Renombrar" value="&#961;"
+							action="#{dtResponderEjerciciosBean.ayudaRenombrar}" update="form" ajax="true"
+							disabled="#{dtResponderEjerciciosBean.selectedEjercicio == null ? 'true' : 'false'}"/>
+						<p:commandButton type="push" title="Union" value="&#8746;"
+							action="#{dtResponderEjerciciosBean.ayudaUnion}" update="form" ajax="true"
+							disabled="#{dtResponderEjerciciosBean.selectedEjercicio == null ? 'true' : 'false'}"/>
+						<p:commandButton type="push" title="Interseccion" value="&#8745;"
+							action="#{dtResponderEjerciciosBean.ayudaInterseccion}" update="form" ajax="true"
+							disabled="#{dtResponderEjerciciosBean.selectedEjercicio == null ? 'true' : 'false'}"/>
+						<p:commandButton type="push" title="Diferencia" value="&#8211;"
+							action="#{dtResponderEjerciciosBean.ayudaDiferencia}" update="form" ajax="true"
+							disabled="#{dtResponderEjerciciosBean.selectedEjercicio == null ? 'true' : 'false'}"/>
+						<p:commandButton type="push" title="Producto Cruz" value="&#215;"
+							action="#{dtResponderEjerciciosBean.ayudaCruz}" update="form" ajax="true"
+							disabled="#{dtResponderEjerciciosBean.selectedEjercicio == null ? 'true' : 'false'}"/>
+						<p:commandButton type="push" title="Reunion" value="⋈"
+							action="#{dtResponderEjerciciosBean.ayudaReunion}" update="form" ajax="true"
+							disabled="#{dtResponderEjerciciosBean.selectedEjercicio == null ? 'true' : 'false'}"/>
+						<p:commandButton type="push" title="Reunion Natural" value="&#8727;"
+							action="#{dtResponderEjerciciosBean.ayudaReunionNatural}" update="form" ajax="true"
+							disabled="#{dtResponderEjerciciosBean.selectedEjercicio == null ? 'true' : 'false'}"/>
+						<p:commandButton type="push" title="Reunion Externa Izquierda" value="]⋈"
+							action="#{dtResponderEjerciciosBean.ayudaReunionExtIzq}" update="form" ajax="true"
+							disabled="#{dtResponderEjerciciosBean.selectedEjercicio == null ? 'true' : 'false'}"/>
+						<p:commandButton type="push" title="Reunion Externa Derecha" value="⋈["
+							action="#{dtResponderEjerciciosBean.ayudaReunionExtDer}" update="form" ajax="true"
+							disabled="#{dtResponderEjerciciosBean.selectedEjercicio == null ? 'true' : 'false'}"/>
+						<p:commandButton type="push" title="Reunion Externa Completa" value="]⋈["
+							action="#{dtResponderEjerciciosBean.ayudaReunionExtComp}" update="form" ajax="true"
+							disabled="#{dtResponderEjerciciosBean.selectedEjercicio == null ? 'true' : 'false'}"/>
+						<p:commandButton type="push" title="Asignar" value="&#8592;"
+							action="#{dtResponderEjerciciosBean.ayudaAsignar}" update="form" ajax="true"
+							disabled="#{dtResponderEjerciciosBean.selectedEjercicio == null ? 'true' : 'false'}"/>
+					</f:facet>
+				</p:toolbar>
+				<h:panelGrid columns="2" style="width:100%">
+					<p:inputText size="150" style="width:95%" id="query" value="#{dtResponderEjerciciosBean.query}"
+						disabled="#{dtResponderEjerciciosBean.selectedEjercicio == null ? 'true' : 'false'}"/>
+					<p:commandButton id="ejecutar" type="push" title="Ejecutar" value="Ejecutar" ajax="true" 
+						action="#{dtResponderEjerciciosBean.ejecutar}" update="form :formDataList" oncomplete="PF('queryDialog').show()"
+							disabled="#{dtResponderEjerciciosBean.selectedEjercicio == null ? 'true' : 'false'}"/>
+				</h:panelGrid>	
+				
+				<p:spacer/>
+				
+				<p:fieldset legend="Historial">
+					
+				<p:scrollPanel mode="native" style="height:140px" styleClass="divs">	
+					<p:inputTextarea rows="7" style="width:98%" id="grupoConsultas" value="#{dtResponderEjerciciosBean.queryList}"	
+						disabled="#{dtResponderEjerciciosBean.selectedEjercicio == null ? 'true' : 'false'}"/>					
+				</p:scrollPanel>
+				
+				</p:fieldset>
+				
+				</p:panel>
+				</p:fieldset>
+				
+				 <p:dialog header="Resultado" widgetVar="queryDialog" closable="true" modal="false" showEffect="fade" hideEffect="fade" resizable="false">
+			        <p:panel id="queryDetail" style="height:235px!important;width:970px!important">
+					<p:dataTable value="#{dtResponderEjerciciosBean.data}" var="item" scrollable="true" scrollHeight="165"
+						emptyMessage="Ingrese su consulta en Algebra Relacional"> 
+						<f:facet name="header">
+							<h:outputText value="#{dtResponderEjerciciosBean.tableName}" />
+						</f:facet>
+	    				<p:columns value="#{dtResponderEjerciciosBean.columnNames}" var="columnName" columnIndexVar="i"> 
+	        				<f:facet name="header">
+	        					<h:outputText value="#{columnName}"/>
+	        				</f:facet>
+	        				<h:outputText value="#{item[i] != null ? item[i] : 'Nulo'}"/>
+	    				</p:columns> 
+					</p:dataTable>
+					</p:panel>			 
+		    	</p:dialog>
+		    	    
+			</h:form>
+		</ui:define>
+	</ui:composition>
+
+</h:body>
+</html>

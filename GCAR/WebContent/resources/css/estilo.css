@@ -1,0 +1,83 @@
+@charset "utf-8";
+
+.logoUV{
+	width: 200px;
+}
+.titulo{
+	width: 950px;
+}
+.login{
+}
+.tituloHeader{
+	font-family: sans-serif;
+	font-size: x-large;
+}
+.tituloPagina{
+	color: #e69700;	
+	font-weight: bold;
+}
+.linkTitulo{
+	color: #3383bb !important;
+	font-weight: bold;
+}
+.nombreHeader{
+	font-size: small;
+	font-style: italic;
+}
+.logo{
+	width:130px;
+}
+
+.divs{
+    border:none!important;
+    }
+
+
+.titulo{
+ 	margin-top:0px; 
+	margin-left:200px; 
+}
+
+#logoUV{
+	position:absolute;
+	margin-top:5px;
+	margin-left:5px;
+	width:130px;
+}
+
+#headerDecom{
+	position:absolute;
+	margin-top:0px;
+	margin-left:600x !important;
+	width:400px;
+}
+
+.crearCuentaForm{
+	width:35%;
+	margin:0 auto !important;
+	min-width: 300px;
+}
+
+.label{
+	font-weight: bold;
+}
+
+.value{
+	font-style: italic;
+}
+
+body {
+	font-size:76% !important;
+	width: 99%;
+	height: 100%;
+}
+
+.ui-wizard-step-title{
+	font-size:100% !important;	
+}
+
+.ui-menuitem-text{
+/* 	color: #006699 !important; */
+	font-weight: bold;
+}
+

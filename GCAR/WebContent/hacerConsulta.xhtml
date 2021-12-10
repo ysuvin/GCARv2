@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+
+<h:body>
+	
+	<f:metadata>
+		<f:event listener="#{newLoginBean.loadBD}" type="preRenderView" />
+	</f:metadata>
+	
+	<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1"/>
+	<ui:composition template="/templates/consultaTemplate.xhtml">
+		<ui:define name="title">Algebra Relacional - UV</ui:define>
+		<ui:define name="content">
+		
+			<h:form>			
+				<p:panel styleClass="divs">
+					<h:panelGrid columns="3" cellpadding="5">
+						<h:commandLink value="Inicio" styleClass="linkTitulo" action="home"/>
+						>
+						<h:outputText value="Hacer Consulta" styleClass="tituloPagina"/>
+					</h:panelGrid>
+				</p:panel>
+			</h:form>
+			
+			<p:spacer/>
+			
+			<h:form id="form" onkeypress="if (event.keyCode == 13) {return false; }">
+				<p:growl id="growl" showDetail="false"/>
+				
+				<p:dialog id="help" widgetVar="dlg" header="Ayuda" resizable="false" showEffect="fade" hideEffect="fade">
+					<p:fieldset legend="Hacer Consulta" style="font-weight: bold;" >
+						<h2/>
+						1. En la secci&#243;n <h:outputText value="Consultas" style="color:#e69700"/> usted puede seleccionar cualquiera de los 13 botones para recibir ayuda de c&#243;mo hacer cualquier consulta en &#193;lgebra Relacional <p/>
+						2. El nombre de las <h:outputText value="Relaciones" style="color:#e69700"/> de la Base de Datos cargada, adem&#225;s de las <h:outputText value="Relaciones Auxiliares" style="color:#e69700"/> generadas en cada consulta, se muestran a la Izquierda de la pantalla <p/>
+						3. Luego de ingresar la consulta, seleccione el bot&#243;n <p:commandButton value="Ejecutar" icon="ui-icon-check" readonly="true" /> para ejecutar la consulta <p/>
+						4. En la secci&#243;n <p:commandButton value="Historial" readonly="true" /> se guarda el Historial de consultas realizadas <p/>
+						<h2/>
+					</p:fieldset>
+			    </p:dialog>  
+			    
+				<p:fieldset styleClass="divs">
+				<f:facet name="legend">
+					<h:panelGrid columns="2" cellpadding="5">
+						<h:outputText value="Hacer Consulta" />
+						<h:outputLink value="javascript:void(0)" onclick="PF('dlg').show();" >
+							<span class="ui-icon ui-icon-help" />
+						</h:outputLink>
+					</h:panelGrid>
+				</f:facet>
+				
+				<p:panel id="tablaPanel" style="height:250px!important" header="Resultado">
+				<p:dataTable value="#{dtGestionarEjerciciosBean.data}" scrollable="true" scrollHeight="150" var="item" style="width:100%!important;"
+					emptyMessage="Ingrese su consulta en Algebra Relacional"> 
+					<f:facet name="header">
+						<h:outputText value="#{dtGestionarEjerciciosBean.tableName}" />
+					</f:facet>
+    				<p:columns value="#{dtGestionarEjerciciosBean.columnNames}" var="columnName" columnIndexVar="i"> 
+        				<f:facet name="header">
+        					<h:outputText value="#{columnName}"/>
+        				</f:facet>
+        				<h:outputText value="#{item[i] != null ? item[i] : 'Nulo'}"/>
+    				</p:columns> 
+				</p:dataTable>
+				</p:panel>
+				
+				<p:spacer/>
+							
+				<p:panel header="Consultas" id="consultaPanel" mode="native" style="margin:0 auto !important;">	
+				<p:toolbar>
+					<f:facet name="left">
+						<p:commandButton type="push" title="Seleccionar" value="&#963;" 
+							action="#{dtGestionarEjerciciosBean.ayudaSeleccionar}" update="form" ajax="true"/>
+							
+						<p:commandButton type="push" title="Proyectar" value="&#960;"
+							action="#{dtGestionarEjerciciosBean.ayudaProyectar}" update="form" ajax="true"/>
+							
+						<p:commandButton type="push" title="Renombrar" value="&#961;"
+							action="#{dtGestionarEjerciciosBean.ayudaRenombrar}" update="form" ajax="true"/>
+							
+						<p:commandButton type="push" title="Union" value="&#8746;"
+							action="#{dtGestionarEjerciciosBean.ayudaUnion}" update="form" ajax="true"/>
+							
+						<p:commandButton type="push" title="Interseccion" value="&#8745;"
+							action="#{dtGestionarEjerciciosBean.ayudaInterseccion}" update="form" ajax="true"/>
+							
+						<p:commandButton type="push" title="Diferencia" value="&#8211;"
+							action="#{dtGestionarEjerciciosBean.ayudaDiferencia}" update="form" ajax="true"/>
+							
+						<p:commandButton type="push" title="Producto Cruz" value="&#215;"
+							action="#{dtGestionarEjerciciosBean.ayudaCruz}" update="form" ajax="true"/>
+							
+						<p:commandButton type="push" title="Reunion" value="⋈"
+							action="#{dtGestionarEjerciciosBean.ayudaReunion}" update="form" ajax="true"/>
+							
+						<p:commandButton type="push" title="Reunion Natural" value="&#8727;"
+							action="#{dtGestionarEjerciciosBean.ayudaReunionNatural}" update="form" ajax="true"/>
+							
+						<p:commandButton type="push" title="Reunion Externa Izquierda" value="]⋈"
+							action="#{dtGestionarEjerciciosBean.ayudaReunionExtIzq}" update="form" ajax="true"/>
+							
+						<p:commandButton type="push" title="Reunion Externa Derecha" value="⋈["
+							action="#{dtGestionarEjerciciosBean.ayudaReunionExtDer}" update="form" ajax="true"/>
+							
+						<p:commandButton type="push" title="Reunion Externa Completa" value="]⋈["
+							action="#{dtGestionarEjerciciosBean.ayudaReunionExtComp}" update="form" ajax="true"/>
+							
+						<p:commandButton type="push" title="Asignar" value="&#8592;"
+							action="#{dtGestionarEjerciciosBean.ayudaAsignar}" update="form" ajax="true"/>
+							
+						<p:commandButton type="push" title="Division" value="&#247;"
+							action="#{dtGestionarEjerciciosBean.ayudaDivision}" update="form" ajax="true"/>	
+							
+						<p:commandButton type="push" title="Ordenar por" value="&#932;"
+							action="#{dtGestionarEjerciciosBean.ayudaOrdenar}" update="form" ajax="true"/>	
+							
+						<p:commandButton type="push" title="Agrupar por" value="&#915;"
+							action="#{dtGestionarEjerciciosBean.ayudaAgrupar}" update="form" ajax="true"/>
+							
+						<p:commandButton type="push" title="Funcion de Agregacion" value="&#915;"
+							action="#{dtGestionarEjerciciosBean.ayudaAgrupar}" update="form" ajax="true"/>
+									
+					</f:facet>
+				</p:toolbar>
+				<h:panelGrid columns="2" style="width:100%">
+					<p:inputText size="150" style="width:95%" id="query" value="#{dtGestionarEjerciciosBean.query}"/>
+					<p:commandButton id="ejecutar" type="push" title="Ejecutar" value="Ejecutar" ajax="true" 
+						action="#{dtGestionarEjerciciosBean.ejecutar}" icon="ui-icon-check" update="form :formDataList"/>	
+				</h:panelGrid>
+				
+				<p:spacer/>
+							
+				<p:fieldset legend="Historial">
+				
+				<p:scrollPanel mode="native" style="height:200px" styleClass="divs">		
+					<p:inputTextarea rows="10" style="width:98%" id="grupoConsultas" disabled="false" value="#{dtGestionarEjerciciosBean.queryList}"/>				
+				</p:scrollPanel>
+				
+				</p:fieldset>
+				
+							
+				</p:panel>
+				</p:fieldset>
+			
+			</h:form>
+					
+		</ui:define>
+	</ui:composition>
+
+</h:body>
+</html>

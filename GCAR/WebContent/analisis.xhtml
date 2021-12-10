@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+
+
+<h:body>
+
+	<f:metadata>
+		<f:event listener="#{newLoginBean.isAdmin}" type="preRenderView" />
+	</f:metadata>
+	<ui:composition template="/templates/analisisTemplate.xhtml">
+		<ui:define name="title">Algebra Relacional - UV</ui:define>
+		<ui:define name="content">
+	
+			<h:form>			
+				<p:panel styleClass="divs">
+					<h:panelGrid columns="3" cellpadding="5">
+						<h:commandLink value="Inicio" styleClass="linkTitulo" action="home"/>
+						>
+						<h:outputText value="Análisis de Datos" styleClass="tituloPagina"/>
+					</h:panelGrid>
+				</p:panel>
+			</h:form>
+			
+			<p:spacer/>
+			
+			<h:form id="form" onkeypress="if (event.keyCode == 13) {return false; }">
+				<p:growl id="growl" showDetail="false"/>
+				
+				<p:dialog id="help" widgetVar="dlg" header="Ayuda" resizable="false" showEffect="fade" hideEffect="fade">
+					<p:fieldset legend="Análisis de Datos" style="font-weight: bold;" >
+						<h2/>
+						<h:outputText value="Ejecución del análisis: " style="color:#e69700"/> <p/>
+						a. En la sección <h:outputText value="Tecnica de Mineria" style="color:#e69700"/> se puede seleccionar la tecnica de minería desea <p/>
+						b. Seleccione el botón <p:commandButton value="Generar Descarga" icon="ui-icon-check" readonly="true" /> para generar la descarga de archivos en formato <h:outputText value="ARFF" style="color:#e69700"/> <p/>
+						c. Seleccione el botón <p:commandButton value="Descargar Todo" icon="ui-icon-document" readonly="true" /> para descargar Todos los datos de los alumnos <p/>
+						d. Seleccione el botón <p:commandButton value="Descargar Resultados" icon="ui-icon-document" readonly="true" /> para descargar sólo los Resultados de los alumnos <p/>
+						e. Seleccione el botón <p:commandButton value="Descargar Respuestas" icon="ui-icon-document" readonly="true" /> para descargar sólo las Respuestas de los alumnos <p/>
+						f. Seleccione el botón <p:commandButton value="Descargar Consultas" icon="ui-icon-document" readonly="true" /> para descargar sólo las Consultas de los alumnos <p/>
+				
+						<h2/>
+					</p:fieldset>
+			    </p:dialog>  
+			    
+				<p:fieldset styleClass="divs">
+				<f:facet name="legend">
+					<h:panelGrid columns="2" cellpadding="5">
+						<h:outputText value="Análisis de Datos" />
+						<h:outputLink value="javascript:void(0)" onclick="PF('dlg').show();" >
+							<span class="ui-icon ui-icon-help" />
+						</h:outputLink>
+					</h:panelGrid>
+				</f:facet>
+				
+				
+					<h:selectOneMenu value="#{}">
+						<f:selectItem itemValue="1" itemLabel="" />
+						<f:selectItem itemValue="2" itemLabel="" />
+						<f:selectItem itemValue="3" itemLabel="" />
+					</h:selectOneMenu>
+				
+				
+				
+	
+	
+	</ui:composition>
+
+</h:body>
+
+</html>
